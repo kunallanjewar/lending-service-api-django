@@ -24,8 +24,18 @@ class AccountDetails(models.Model):
                 default=uuid.uuid4,
                 editable=False
             )
-    credit_line = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
-    balance = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    credit_line = models.DecimalField(
+                max_digits=5,
+                decimal_places=2,
+                null=True,
+                blank=True
+            )
+    principal_balance = models.DecimalField(
+                max_digits=5,
+                decimal_places=2,
+                null=True,
+                blank=True
+            )
     date_created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     date_modified = models.DateTimeField(auto_now=True)
 
