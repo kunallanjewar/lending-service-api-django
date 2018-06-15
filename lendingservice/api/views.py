@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import generics
 from .serializers import UserSerializer
-from .models import User
+from .models import *
 
 class CreateView(generics.ListCreateAPIView):
     queryset = User.objects.all()
