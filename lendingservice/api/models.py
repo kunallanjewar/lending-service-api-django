@@ -14,7 +14,7 @@ class User(models.Model):
         return "{}".format(self.first_name)
 
 class AccountDetails(models.Model):
-    user = models.ForeignKey(
+    user_fk = models.ForeignKey(
                 'User',
                 on_delete=models.CASCADE,
                 default=None
@@ -39,6 +39,10 @@ class AccountDetails(models.Model):
     date_created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     date_modified = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        """Return a human readable representation of the model instance."""
+        return "{}".format(self.account_number)
+
 class Transactions(models.Model):
     account = models.ForeignKey(
                 'AccountDetails',
@@ -53,3 +57,7 @@ class Transactions(models.Model):
     transaction_type = models.CharField(max_length=10, null=True, blank=False)
     date_created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     date_modified = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        """Return a human readable representation of the model instance."""
+        return "{}".format(self.transaction_id)
