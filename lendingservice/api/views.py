@@ -1,11 +1,11 @@
 from django.shortcuts import render
 from rest_framework import generics
-from .serializers import Serializer
+from .serializers import UserSerializer
 from .models import User
 
 class CreateView(generics.ListCreateAPIView):
     queryset = User.objects.all()
-    serializer_class = Serializer()
+    serializer_class = UserSerializer
 
-    def create(self, serializer):
+    def perform_create(self, serializer):
         serializer.save()
