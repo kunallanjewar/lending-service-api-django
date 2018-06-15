@@ -41,6 +41,7 @@ class TransactionsSerializer(serializers.ModelSerializer):
         fields =    ('account',
                     'transaction_id',
                     'transaction_type',
+                    'amount',
                     'date_created',
                     'date_modified'
                     )
