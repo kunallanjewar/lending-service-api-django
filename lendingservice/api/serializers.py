@@ -24,13 +24,21 @@ class AccountDetailsSerializer(serializers.ModelSerializer):
         fields =    ('user',
                     'account_number',
                     'credit_line',
+                    'apr',
                     'principal_balance',
                     'interest',
                     'total_amount',
                     'date_created',
                     'date_modified'
                     )
-        read_only_fields = ('date_created', 'date_modified')
+        read_only_fields = (
+                    'account_number',
+                    #'credit_line',
+                    #'principal_balance',
+                    #'interest',
+                    #'total_amount',
+                    'date_created',
+                    'date_modified')
 
 class TransactionsSerializer(serializers.ModelSerializer):
     """Serializer to map the Model instance into JSON format."""

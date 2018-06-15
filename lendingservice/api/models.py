@@ -11,7 +11,7 @@ class User(models.Model):
 
     def __str__(self):
         """Return a human readable representation of the model instance."""
-        return "{}".format(self.first_name)
+        return "{}".format(self.email)
 
 class AccountDetails(models.Model):
     user = models.ForeignKey(
@@ -25,22 +25,28 @@ class AccountDetails(models.Model):
                 editable=False
             )
     credit_line = models.DecimalField(
-                max_digits=10,
+                max_digits=50,
                 decimal_places=2,
                 default=Decimal('0.00')
             )
     principal_balance = models.DecimalField(
-                max_digits=10,
+                max_digits=50,
                 decimal_places=2,
                 default=Decimal('0.00')
             )
+    apr = models.DecimalField(
+                max_digits=5,
+                decimal_places=2,
+                default=Decimal('0.00')
+            )
+
     interest = models.DecimalField(
-                max_digits=2,
+                max_digits=10,
                 decimal_places=2,
                 default=Decimal('0.00')
             )
     total_amount = models.DecimalField(
-                max_digits=10,
+                max_digits=50,
                 decimal_places=2,
                 default=Decimal('0.00')
             )
