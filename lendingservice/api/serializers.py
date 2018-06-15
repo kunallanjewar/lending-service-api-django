@@ -7,7 +7,12 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         """Meta class to map serializer's fields with the model fields."""
         model = User
-        fields = ('first_name', 'date_created', 'date_modified')
+        fields =   ('first_name',
+                    'last_name',
+                    'email',
+                    'date_created',
+                    'date_modified'
+                    )
         read_only_fields = ('date_created', 'date_modified')
 
 class AccountDetailsSerializer(serializers.ModelSerializer):
@@ -16,7 +21,15 @@ class AccountDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         """Meta class to map serializer's fields with the model fields."""
         model = AccountDetails
-        fields = ('first_name', 'date_created', 'date_modified')
+        fields =    ('user',
+                    'account_number',
+                    'credit_line',
+                    'principal_balance',
+                    'interest',
+                    'total_amount',
+                    'date_created',
+                    'date_modified'
+                    )
         read_only_fields = ('date_created', 'date_modified')
 
 class TransactionsSerializer(serializers.ModelSerializer):
@@ -25,5 +38,10 @@ class TransactionsSerializer(serializers.ModelSerializer):
     class Meta:
         """Meta class to map serializer's fields with the model fields."""
         model = Transactions
-        fields = ('first_name', 'date_created', 'date_modified')
+        fields =    ('account',
+                    'transaction_id',
+                    'transaction_type',
+                    'date_created',
+                    'date_modified'
+                    )
         read_only_fields = ('date_created', 'date_modified')

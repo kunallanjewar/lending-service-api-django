@@ -5,7 +5,6 @@ from decimal import Decimal
 class User(models.Model):
     first_name = models.CharField(max_length=255, blank=False)
     last_name = models.CharField(max_length=255, blank=False)
-    dob = models.DateField(auto_now=False, auto_now_add=False, null = True)
     email = models.EmailField(max_length=254, null=True, unique=True)
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
@@ -26,12 +25,22 @@ class AccountDetails(models.Model):
                 editable=False
             )
     credit_line = models.DecimalField(
-                max_digits=5,
+                max_digits=10,
                 decimal_places=2,
                 default=Decimal('0.00')
             )
     principal_balance = models.DecimalField(
-                max_digits=5,
+                max_digits=10,
+                decimal_places=2,
+                default=Decimal('0.00')
+            )
+    interest = models.DecimalField(
+                max_digits=2,
+                decimal_places=2,
+                default=Decimal('0.00')
+            )
+    total_amount = models.DecimalField(
+                max_digits=10,
                 decimal_places=2,
                 default=Decimal('0.00')
             )
