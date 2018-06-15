@@ -3,6 +3,8 @@ from .models import *
 from rest_framework.test import APIClient
 from rest_framework import status
 from django.urls import reverse
+from faker import Faker
+
 
 class ModelTestCase(TestCase):
     """Class defines test suite for our model"""
@@ -30,8 +32,9 @@ class ServicesTestCase(TestCase):
 class ViewTestCase(TestCase):
 
     def setUp(self):
+        fake = Faker()
         self.client = APIClient()
-        self.user_data = {'first_name': 'kunal'}
+        self.user_data = {'first_name': fake.name()}
         self.response = self.client.post(
             reverse('create'),
             self.user_data,

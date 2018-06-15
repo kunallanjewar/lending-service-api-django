@@ -53,7 +53,7 @@ class Transactions(models.Model):
                 default=uuid.uuid4,
                 editable=False
             )
-    transaction_type = models.CharField(max_length=10, null=True, blank=False)
+    transaction_type = models.CharField(max_length=10, default="NONE")
     date_created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     date_modified = models.DateTimeField(auto_now=True)
 

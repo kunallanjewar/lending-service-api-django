@@ -10,7 +10,6 @@ class LendingService(object):
             self.email = email
         )
         
-
     @staticmethod
     def withdraw(self):
         pass
