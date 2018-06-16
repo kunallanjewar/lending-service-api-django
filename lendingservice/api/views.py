@@ -7,7 +7,7 @@ from .models import User as UserModel, AccountDetail, Transaction
 from .services import *
 
 class CreateUserView(generics.CreateAPIView):
-    queryset = User.objects.all()
+    queryset = UserModel.objects.all()
     serializer_class = UserSerializer
 
     def perform_create(self, serializer):
