@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
-from .models import User
+from .models import User as UserTable
 from rest_framework.test import APIClient
 from rest_framework import status
 from django.urls import reverse
@@ -12,23 +12,23 @@ class ModelTestCase(TestCase):
 
     def setUp(self):
         self.fake = Faker()
+        user = User.objects.create(username=self.fake.user_name())
 
-        username = User.objects.create(username=self.fake.user_name())
         self.first_name = self.fake.first_name()
         self.last_name = self.fake.last_name()
         self.email = self.fake.email()
 
-        self.user_data = User(
-            username=self.username,
+        self.user_data = UserTable(
+            owner=user,
             first_name=self.first_name,
             last_name=self.last_name,
             email=self.email,
         )
 
     def test_model_can_create_user_table_in_db(self):
-        old_count = User.objects.count()
+        old_count = UserTable.objects.count()
         self.user_data.save()
-        new_count = User.objects.count()
+        new_count = UserTable.objects.count()
         self.assertNotEqual(old_count, new_count)
 
     def test_model_can_create_account_details_table(self):
@@ -44,16 +44,17 @@ class ServicesTestCase(TestCase):
 class ViewTestCase(TestCase):
 
     def setUp(self):
-        username = User.objects.create(username="superman")
-
         self.fake = Faker()
+        user = User.objects.create(username=self.fake.user_name())
+
         self.client = APIClient()
-        self.client.force_authentication(user=username)
+        self.client.force_authenticate(user=user)
 
         self.user_data = {
+                'owner':user.id,
                 'first_name': self.fake.first_name(),
                 'last_name': self.fake.last_name(),
-                'email': self.fake.email()
+                'email': self.fake.email(),
         }
         self.response = self.client.post(
             reverse('create'),
@@ -71,7 +72,7 @@ class ViewTestCase(TestCase):
                 kwargs={'pk':3},
                 format="json",
         )
-        self.assertEqual(repsonse.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_api_can_get_a_user(self):
         pass

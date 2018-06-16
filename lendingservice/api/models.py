@@ -3,9 +3,9 @@ import uuid
 from decimal import Decimal
 
 class User(models.Model):
-    username = models.ForeignKey(
+    owner = models.ForeignKey(
                 'auth.User',
-                related_name='owner',
+                related_name='users',
                 on_delete=models.CASCADE
     )
     first_name = models.CharField(max_length=255, blank=False)
