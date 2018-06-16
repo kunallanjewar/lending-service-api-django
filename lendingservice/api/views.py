@@ -15,23 +15,23 @@ class CreateUserView(generics.CreateAPIView):
             serializer.save(owner=self.request.user)
 
 class OpenAccountView(generics.CreateAPIView):
-    queryset = AccountDetails.objects.all()
-    serializer_class = AccountDetailsSerializer
+    queryset = AccountDetail.objects.all()
+    serializer_class = AccountDetailSerializer
 
     def perform_create(self, serializer):
         serializer.save()
 
 class WithdrawView(generics.ListAPIView):
-    queryset = Transactions.objects.all()
-    serializer_class = TransactionsSerializer
+    queryset = Transaction.objects.all()
+    serializer_class = TransactionSerializer
 
 class MakePaymentView(generics.ListCreateAPIView):
     pass
 
-class TransactionsHistoryView(viewsets.ViewSet):
+class TransactionHistoryView(viewsets.ViewSet):
 
     def retrieve(self, request, pk=None):
-        queryset = Transactions.objects.all()
+        queryset = Transaction.objects.all()
         transactions = get_object_or_404(queryset, pk=pk)
-        serializer = TransactionsSerializer(transactions)
+        serializer = TransactionSerializer(transactions)
         return Response(serializer.data)

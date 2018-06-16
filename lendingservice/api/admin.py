@@ -1,10 +1,10 @@
 from django.contrib import admin
 from .models import (
                 User,
-                AccountDetails,
-                Transactions
+                AccountDetail,
+                Transaction,
             )
 
 admin.site.register(User)
-admin.site.register(AccountDetails)
-admin.site.register(Transactions)
+admin.site.register(AccountDetail)
+admin.site.register(Transaction)

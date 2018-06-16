@@ -15,12 +15,12 @@ class UserSerializer(serializers.ModelSerializer):
                     )
         read_only_fields = ('date_created', 'date_modified')
 
-class AccountDetailsSerializer(serializers.ModelSerializer):
+class AccountDetailSerializer(serializers.ModelSerializer):
     """Serializer to map the Model instance into JSON format."""
 
     class Meta:
         """Meta class to map serializer's fields with the model fields."""
-        model = AccountDetails
+        model = AccountDetail
         fields =    ('user',
                     'account_number',
                     'credit_line',
@@ -40,12 +40,12 @@ class AccountDetailsSerializer(serializers.ModelSerializer):
                     'date_created',
                     'date_modified')
 
-class TransactionsSerializer(serializers.ModelSerializer):
+class TransactionSerializer(serializers.ModelSerializer):
     """Serializer to map the Model instance into JSON format."""
 
     class Meta:
         """Meta class to map serializer's fields with the model fields."""
-        model = Transactions
+        model = Transaction
         fields =    ('account',
                     'transaction_id',
                     'transaction_type',

@@ -13,7 +13,7 @@ class User(models.Model):
         """Return a human readable representation of the model instance."""
         return "{}".format(self.email)
 
-class AccountDetails(models.Model):
+class AccountDetail(models.Model):
     user = models.ForeignKey(
                 'User',
                 on_delete=models.CASCADE,
@@ -57,9 +57,9 @@ class AccountDetails(models.Model):
         """Return a human readable representation of the model instance."""
         return "{}".format(self.account_number)
 
-class Transactions(models.Model):
+class Transaction(models.Model):
     account = models.ForeignKey(
-                'AccountDetails',
+                'AccountDetail',
                 on_delete=models.CASCADE,
                 default = None
             )
@@ -73,7 +73,8 @@ class Transactions(models.Model):
                 decimal_places=2,
                 default=Decimal('0.00')
             )
-    transaction_type = models.CharField(max_length=10, default="NONE")
+    CHOICES = (('WDW', 'withdraw'), ('PMT','Payment'))
+    transaction_type = models.CharField(max_length=3, choices=CHOICES)
     date_created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     date_modified = models.DateTimeField(auto_now=True)
 
