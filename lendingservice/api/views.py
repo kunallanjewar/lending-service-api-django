@@ -11,9 +11,7 @@ class CreateUserView(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         if serializer.is_valid():
-            lending_service = LendingService()
             serializer.save()
-        return Response(serializer.data)
 
 class OpenAccountView(generics.CreateAPIView):
     queryset = AccountDetails.objects.all()

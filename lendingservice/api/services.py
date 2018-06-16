@@ -2,12 +2,13 @@ from .models import *
 
 class LendingService(object):
     @staticmethod
-    def create_user(self, first_name, last_name, email):
-        self.user_data = User(
-            first_name = self.first_name,
-            last_name = self.last_name,
-            email = self.email
+    def create_user(data):
+        user_data = User(
+            first_name = data['first_name'],
+            last_name = data['last_name'],
+            email = data['email']
         )
+        return (user_data)
 
     @staticmethod
     def open_account(self, credit_line, principal_balance):
