@@ -3,7 +3,7 @@ from rest_framework import generics, status, viewsets
 from rest_framework.routers import DefaultRouter
 from rest_framework.response import Response
 from .serializers import *
-from .models import *
+from .models import User as UserModel, AccountDetail, Transaction
 from .services import *
 
 class CreateUserView(generics.CreateAPIView):
@@ -27,6 +27,10 @@ class WithdrawView(generics.ListAPIView):
 
 class MakePaymentView(generics.ListCreateAPIView):
     pass
+
+class AccountDetailView(generics.ListAPIView):
+    queryset = UserModel.objects.all()
+    serializer_class = UserSerializer
 
 class TransactionHistoryView(viewsets.ViewSet):
 

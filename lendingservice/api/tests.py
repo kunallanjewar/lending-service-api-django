@@ -69,7 +69,7 @@ class ViewTestCase(TestCase):
         client = APIClient()
         response = client.get(
                 '/api/',
-                kwargs={'pk':3},
+                kwargs={'pk':1},
                 format="json",
         )
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
