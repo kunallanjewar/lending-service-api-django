@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import *
+from .models import User, AccountDetail, Transaction
 
 class UserSerializer(serializers.ModelSerializer):
     """Serializer to map the Model instance into JSON format."""
@@ -10,10 +10,11 @@ class UserSerializer(serializers.ModelSerializer):
         fields =   ('first_name',
                     'last_name',
                     'email',
+                    'username',
                     'date_created',
                     'date_modified'
-                    )
-        read_only_fields = ('date_created', 'date_modified')
+        )
+        read_only_fields = ('username','date_created', 'date_modified')
 
 class AccountDetailSerializer(serializers.ModelSerializer):
     """Serializer to map the Model instance into JSON format."""
@@ -30,7 +31,7 @@ class AccountDetailSerializer(serializers.ModelSerializer):
                     'total_amount',
                     'date_created',
                     'date_modified'
-                    )
+        )
         read_only_fields = (
                     'account_number',
                     #'credit_line',
@@ -38,7 +39,8 @@ class AccountDetailSerializer(serializers.ModelSerializer):
                     #'interest',
                     #'total_amount',
                     'date_created',
-                    'date_modified')
+                    'date_modified'
+        )
 
 class TransactionSerializer(serializers.ModelSerializer):
     """Serializer to map the Model instance into JSON format."""
@@ -52,5 +54,5 @@ class TransactionSerializer(serializers.ModelSerializer):
                     'amount',
                     'date_created',
                     'date_modified'
-                    )
+        )
         read_only_fields = ('date_created', 'date_modified')
