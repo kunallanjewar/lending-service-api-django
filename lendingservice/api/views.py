@@ -12,7 +12,7 @@ class CreateUserView(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         if serializer.is_valid():
-            serializer.save()
+            serializer.save(owner=self.request.user)
 
 class OpenAccountView(generics.CreateAPIView):
     queryset = AccountDetails.objects.all()
@@ -35,20 +35,3 @@ class TransactionsHistoryView(viewsets.ViewSet):
         transactions = get_object_or_404(queryset, pk=pk)
         serializer = TransactionsSerializer(transactions)
         return Response(serializer.data)
-
-transactions_list = TransactionsHistoryView.as_view({
-    'get': 'list',
-    'post': 'create'
-})
-
-details = TransactionsHistoryView.as_view({
-    'get': 'retrieve',
-    'put': 'update',
-    'patch': 'partial_update',
-    'delete': 'destroy'
-})
-router = DefaultRouter()
-router.register(r'^api/transactions/$',
-                                TransactionsHistoryView,
-                                base_name='transactions'
-                            )
