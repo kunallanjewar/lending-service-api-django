@@ -13,16 +13,16 @@ class ModelTestCase(TestCase):
     def setUp(self):
         self.fake = Faker()
 
-        username = User.objects.create(username=fake.user_name())
-        self.first_name = fake.first_name()
-        self.last_name = fake.last_name()
-        self.email = fake.email()
+        username = User.objects.create(username=self.fake.user_name())
+        self.first_name = self.fake.first_name()
+        self.last_name = self.fake.last_name()
+        self.email = self.fake.email()
 
         self.user_data = User(
-            username=self.username
+            username=self.username,
             first_name=self.first_name,
             last_name=self.last_name,
-            email=self.email
+            email=self.email,
         )
 
     def test_model_can_create_user_table_in_db(self):
@@ -68,7 +68,8 @@ class ViewTestCase(TestCase):
         client = APIClient()
         response = client.get(
                 '/api/',
-                kwargs={'pk':3, format="json"}
+                kwargs={'pk':3},
+                format="json",
         )
         self.assertEqual(repsonse.status_code, status.HTTP_401_UNAUTHORIZED)
 
