@@ -89,7 +89,7 @@ class ViewTestCase(TestCase):
         user = UserModel.objects.get()
         change_email = {'email':'hello@test.com'}
         response = self.client.put(
-                reverse('/api/user-details/', kwargs={'pk':a_user.id}),
+                reverse('/api/user-details/', kwargs={'pk':user.id}),
                 format="json",
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
