@@ -4,8 +4,8 @@ from .models import User as UserModel, AccountDetail, Transaction
 class IsOwner(BasePermission):
     """ Only allow users to edit their information."""
 
-    def has_permission(self, request, view, data):
+    def has_object_permission(self, request, view, obj):
         """ Return True if permission is granted."""
-        if is_instance(data, UserModel):
-            return data.owner == request.user
-        return data.owner == request.user
+        if isinstance(obj, UserModel):
+            return obj.owner == request.user
+        return obj.owner == request.user
