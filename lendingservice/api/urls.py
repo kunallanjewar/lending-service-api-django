@@ -1,7 +1,7 @@
-from django.urls import path
 from django.conf.urls import url, include
 from rest_framework.urlpatterns import format_suffix_patterns
-from .views import *
+from .views import (CreateUserView, OpenAccountView,
+                    UserDetailView, AccountDetailView)
 
 urlpatterns = {
     url(r'^api/create/$', CreateUserView.as_view(), name="createuser"),
@@ -17,7 +17,7 @@ urlpatterns = {
                     name="account"
     ),
 
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^auth/$', include('rest_framework.urls', namespace='rest_framework')),
 }
 
 urlpatterns = format_suffix_patterns(urlpatterns)
