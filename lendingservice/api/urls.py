@@ -5,8 +5,8 @@ from .views import (CreateUserView, OpenAccountView,
                     UserDetailView, AccountDetailView)
 
 urlpatterns = {
-    url(r'^api/create/$', CreateUserView.as_view(), name="createuser"),
-    url(r'^api/openaccount/$', OpenAccountView.as_view(), name="openaccount"),
+    url(r'^register/$', CreateUserView.as_view(), name="create-user"),
+    url(r'^api/openaccount/$', OpenAccountView.as_view(), name="open-account"),
 
     url(r'^api/profile/(?P<pk>[0-9]+)/$',
                     UserDetailView.as_view(),

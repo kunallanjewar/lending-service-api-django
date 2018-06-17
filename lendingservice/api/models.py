@@ -1,11 +1,12 @@
 from django.db import models
 from decimal import Decimal
 from django.db.models.signals import post_save
-from django.contrib.auth.models import User as Owner
+from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
 from django.dispatch import receiver
 import uuid
 
+'''
 class User(models.Model):
     owner = models.ForeignKey(
                 'auth.User',
@@ -21,10 +22,11 @@ class User(models.Model):
     def __str__(self):
         """Return a human readable representation of the model instance."""
         return "{}".format(self.owner)
-
+'''
 class AccountDetail(models.Model):
-    user = models.ForeignKey(
-                'User',
+    owner = models.ForeignKey(
+                'auth.User',
+                related_name='users',
                 on_delete=models.CASCADE,
                 default=None
     )
@@ -67,6 +69,12 @@ class AccountDetail(models.Model):
         return "{}".format(self.account_number)
 
 class Transaction(models.Model):
+    owner = models.ForeignKey(
+                'auth.User',
+                related_name='owner',
+                on_delete=models.CASCADE,
+                default=None
+    )
     account = models.ForeignKey(
                 'AccountDetail',
                 on_delete=models.CASCADE,
@@ -91,7 +99,7 @@ class Transaction(models.Model):
         """Return a human readable representation of the model instance."""
         return "{}".format(self.transaction_id)
 
-@receiver(post_save, sender=Owner)
+@receiver(post_save, sender=User)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:
         Token.objects.create(user=instance)
