@@ -1,14 +1,14 @@
 from django.shortcuts import render
-from rest_framework import generics, status, viewsets
+from rest_framework import permissions, generics, status, viewsets
 from rest_framework.routers import DefaultRouter
 from rest_framework.response import Response
-from .serializers import *
+from .serializers import UserSerializer, AccountDetailSerializer, TransactionSerializer
 from .models import User as UserModel, AccountDetail, Transaction
-from .services import *
 
 class CreateUserView(generics.CreateAPIView):
     queryset = UserModel.objects.all()
     serializer_class = UserSerializer
+    permission_classes = (permissions.IsAuthenticated,) 
 
     def perform_create(self, serializer):
         if serializer.is_valid():

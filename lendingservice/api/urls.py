@@ -17,7 +17,7 @@ urlpatterns = {
                     name="account"
     ),
 
-    url(r'^auth/$', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^auth/', include('rest_framework.urls', namespace='rest_framework')),
 }
 
 urlpatterns = format_suffix_patterns(urlpatterns)
