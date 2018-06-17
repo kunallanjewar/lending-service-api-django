@@ -16,7 +16,7 @@ class UserDetailView(generics.RetrieveUpdateAPIView):
     serializer_class = UserSerializer
     permission_classes = (permissions.IsAuthenticated, IsOwner)
 
-class OpenAccountView(generics.CreateAPIView):
+class OpenAccountView(generics.ListCreateAPIView):
     queryset = AccountDetail.objects.all()
     serializer_class = AccountDetailSerializer
     permission_classes = (permissions.IsAuthenticated, IsOwner)
@@ -24,11 +24,13 @@ class OpenAccountView(generics.CreateAPIView):
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
-class WithdrawView(generics.ListAPIView):
-    pass
+class TransactionView(generics.ListCreateAPIView):
+    queryset = Transaction.objects.all()
+    serializer_class = Transaction
+    #permission_classes = (permissions.IsAuthenticated, IsOwner)
 
-class MakePaymentView(generics.ListCreateAPIView):
-    pass
+    #def perform_create(self, serializer):
+        #serializer.save(owner=self.request.user)
 
 class AccountDetailView(generics.ListAPIView):
     queryset = AccountDetail.objects.all()

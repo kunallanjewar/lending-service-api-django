@@ -32,14 +32,13 @@ class UserSerializer(serializers.ModelSerializer):
 
 class AccountDetailSerializer(serializers.ModelSerializer):
     """Serializer to map the Model instance into JSON format."""
-
+    owner = serializers.ReadOnlyField(source='owner.username')
     class Meta:
         """Meta class to map serializer's fields with the model fields."""
         model = AccountDetail
-        fields =    ('user',
+        fields =    ('owner',
                     'account_number',
                     'credit_line',
-                    'apr',
                     'principal_balance',
                     'interest',
                     'total_amount',
@@ -48,9 +47,9 @@ class AccountDetailSerializer(serializers.ModelSerializer):
         )
         read_only_fields = (
                     'account_number',
-                    'credit_line',
                     'principal_balance',
                     'interest',
+                    'apr',
                     'total_amount',
                     'date_created',
                     'date_modified'
@@ -58,11 +57,13 @@ class AccountDetailSerializer(serializers.ModelSerializer):
 
 class TransactionSerializer(serializers.ModelSerializer):
     """Serializer to map the Model instance into JSON format."""
+    #owner = serializers.ReadOnlyField(source='owner.username')
 
     class Meta:
         """Meta class to map serializer's fields with the model fields."""
         model = Transaction
-        fields =    ('account',
+        fields =    (#'owner',
+                    #'account',
                     'transaction_id',
                     'transaction_type',
                     'amount',

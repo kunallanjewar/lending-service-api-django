@@ -69,7 +69,7 @@ class AccountDetail(models.Model):
         return "{}".format(self.account_number)
 
 class Transaction(models.Model):
-    owner = models.ForeignKey(
+    '''owner = models.ForeignKey(
                 'auth.User',
                 related_name='owner',
                 on_delete=models.CASCADE,
@@ -79,7 +79,7 @@ class Transaction(models.Model):
                 'AccountDetail',
                 on_delete=models.CASCADE,
                 default = None
-    )
+    )'''
     transaction_id = models.UUIDField(
                 primary_key=True,
                 default=uuid.uuid4,
