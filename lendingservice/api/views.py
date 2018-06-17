@@ -4,14 +4,13 @@ from .serializers import UserSerializer, AccountDetailSerializer, TransactionSer
 from .models import User as UserModel, AccountDetail, Transaction
 from .permissions import IsOwner
 
-class CreateUserView(generics.CreateAPIView):
+class CreateUserView(generics.ListCreateAPIView):
     queryset = UserModel.objects.all()
     serializer_class = UserSerializer
     permission_classes = (permissions.IsAuthenticated, IsOwner)
 
     def perform_create(self, serializer):
-        if serializer.is_valid():
-            serializer.save(owner=self.request.user)
+        serializer.save(owner=self.request.user)
 
 class UserDetailView(generics.RetrieveUpdateAPIView):
     queryset = UserModel.objects.all()
