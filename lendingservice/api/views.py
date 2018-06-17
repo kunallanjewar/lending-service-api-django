@@ -3,7 +3,6 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from .serializers import UserSerializer, AccountDetailSerializer, TransactionSerializer
 from .models import AccountDetail, Transaction
-#from django.contrib.auth import get_user_model
 from .permissions import IsOwner
 from django.contrib.auth.models import User
 
