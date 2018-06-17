@@ -1,6 +1,10 @@
 from django.db import models
-import uuid
 from decimal import Decimal
+from django.db.models.signals import post_save
+from django.contrib.auth.models import User as Owner
+from rest_framework.authtoken.models import Token
+from django.dispatch import receiver
+import uuid
 
 class User(models.Model):
     owner = models.ForeignKey(
@@ -86,3 +90,8 @@ class Transaction(models.Model):
     def __str__(self):
         """Return a human readable representation of the model instance."""
         return "{}".format(self.transaction_id)
+
+@receiver(post_save, sender=Owner)
+def create_auth_token(sender, instance=None, created=False, **kwargs):
+    if created:
+        Token.objects.create(user=instance)
