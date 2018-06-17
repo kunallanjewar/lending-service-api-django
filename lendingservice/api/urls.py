@@ -4,17 +4,17 @@ from rest_framework.urlpatterns import format_suffix_patterns
 from .views import *
 
 urlpatterns = {
-    url(r'^api/create-user/$', CreateUserView.as_view(), name="createuser"),
-    url(r'^api/open-account/$', OpenAccountView.as_view(), name="openaccount"),
+    url(r'^api/create/$', CreateUserView.as_view(), name="createuser"),
+    url(r'^api/openaccount/$', OpenAccountView.as_view(), name="openaccount"),
 
-    url(r'^api/user-details/(?P<pk>[0-9]+)/$',
+    url(r'^api/profile/(?P<pk>[0-9]+)/$',
                     UserDetailView.as_view(),
-                    name="userprofile"
+                    name="profile"
     ),
 
-    url(r'^api/account-details/(?P<pk>[0-9]+)/$',
+    url(r'^api/account/(?P<pk>[0-9]+)/$',
                     AccountDetailView.as_view(),
-                    name="accountdetails"
+                    name="account"
     ),
 
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),

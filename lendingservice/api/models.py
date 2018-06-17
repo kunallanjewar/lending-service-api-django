@@ -16,7 +16,7 @@ class User(models.Model):
 
     def __str__(self):
         """Return a human readable representation of the model instance."""
-        return "{}".format(self.email)
+        return "{}".format(self.owner)
 
 class AccountDetail(models.Model):
     user = models.ForeignKey(

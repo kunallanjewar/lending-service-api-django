@@ -14,7 +14,7 @@ class UserSerializer(serializers.ModelSerializer):
                     'date_created',
                     'date_modified'
         )
-        read_only_fields = ('username','date_created', 'date_modified')
+        read_only_fields = ('owner','date_created', 'date_modified')
 
 class AccountDetailSerializer(serializers.ModelSerializer):
     """Serializer to map the Model instance into JSON format."""

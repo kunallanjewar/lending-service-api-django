@@ -57,7 +57,7 @@ class ViewTestCase(TestCase):
                 'email': self.fake.email(),
         }
         self.response = self.client.post(
-                reverse('create'),
+                reverse('createuser'),
                 self.user_data,
                 format = "json"
         )
@@ -66,30 +66,31 @@ class ViewTestCase(TestCase):
         self.assertEqual(self.response.status_code, status.HTTP_201_CREATED)
 
     def test_authorization_is_enforced(self):
-        client = APIClient()
-        response = client.get(
-                '/api/create-user/',
-                kwargs={'pk':1},
+        a_client = APIClient()
+        a_response = a_client.get(
+                'profile',
+                kwargs={'pk':5},
                 format="json",
         )
-        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertEqual(a_response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_api_can_get_user_details(self):
-        a_user = User.objects.get(id=1)
+        user = UserModel.objects.get(id=5)
+
         response = self.client.get(
-                '/api/user-details/',
-                kwargs={'pk':a_user.id},
+                'profile',
+                kwargs={'pk':user.id},
                 format="json",
 
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertContains(response, a_user)
-'''
+        self.assertContains(response, user)
+
     def test_api_can_update_user_email(self):
-        user = User.objects.get()
+        user = UserModel.objects.get()
         change_email = {'email':'hello@test.com'}
         response = self.client.put(
-                reverse('/api/user-details/', kwargs={'pk':user.id}),
+                reverse('profile', kwargs={'pk':user.id}),
                 change_email,
                 format="json",
         )
@@ -97,4 +98,3 @@ class ViewTestCase(TestCase):
 
     def test_api_can_delete_user(self):
         pass
-'''
