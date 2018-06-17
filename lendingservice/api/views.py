@@ -5,9 +5,10 @@ from .serializers import UserSerializer, AccountDetailSerializer, TransactionSer
 from .models import User as UserModel, AccountDetail, Transaction
 from .permissions import IsOwner
 from django.contrib.auth.models import User
+from django.shortcuts import get_list_or_404, get_object_or_404
 
 
-class RegisterAccount(generics.CreateAPIView):
+class RegisterAccountView(generics.CreateAPIView):
     model = User
     permission_classes = (AllowAny,)
     serializer_class = RegisterSerializer
@@ -41,10 +42,13 @@ class MakePaymentView(generics.ListCreateAPIView):
 
 class AccountDetailView(generics.ListAPIView):
     queryset = AccountDetail.objects.all()
+    permission_classes = (AllowAny,)
+    #permission_classes = (permissions.IsAuthenticated, IsOwner)
     serializer_class = AccountDetail
-    permission_classes = (permissions.IsAuthenticated, IsOwner)
 
 class TransactionHistoryView(generics.ListAPIView):
-    queryset = Transaction.objects.all()
-    serializer_class = TransactionSerializer
     permission_classes = (permissions.IsAuthenticated, IsOwner)
+    serializer_class = TransactionSerializer
+
+    def get_queryset(self):
+        return Transaction.objects.filter(owner=self.request.user)
