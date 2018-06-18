@@ -5,11 +5,10 @@ from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
 from django.dispatch import receiver
 import uuid
-'''
-class User(models.Model):
+
+class Profile(models.Model):
     owner = models.ForeignKey(
                 'auth.User',
-                related_name='users',
                 on_delete=models.CASCADE
     )
     first_name = models.CharField(max_length=255, blank=False)
@@ -21,8 +20,8 @@ class User(models.Model):
     def __str__(self):
         """Return a human readable representation of the model instance."""
         return "{}".format(self.owner)
-'''
-class AccountDetail(models.Model):
+
+class Account(models.Model):
     owner = models.ForeignKey(
                 'auth.User',
                 on_delete=models.CASCADE,
@@ -73,7 +72,7 @@ class Transaction(models.Model):
                 default=None
     )
     account = models.ForeignKey(
-                'AccountDetail',
+                'Account',
                 on_delete=models.CASCADE,
                 default = None
     )
