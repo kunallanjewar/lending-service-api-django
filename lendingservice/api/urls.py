@@ -3,12 +3,12 @@ from rest_framework.urlpatterns import format_suffix_patterns
 from rest_framework.authtoken import views
 from .views import( ProfileView, AccountView,
                     ProfileView, AccountView,
-                    RegisterAccountView, TransactionView
+                    RegisterUserView, TransactionView
                 )
 
 urlpatterns = {
     url(r'^register/$',
-                    RegisterAccountView.as_view(),
+                    RegisterUserView.as_view(),
                     name="createuser"
     ),
 
