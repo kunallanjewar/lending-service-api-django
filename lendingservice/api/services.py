@@ -1,4 +1,3 @@
-from .models import Profile, Account, Transaction
 
 class LendingService(object):
 
@@ -30,3 +29,8 @@ class LendingService(object):
     def random_credit_line(self):
         import random
         return (random.randrange(credit_min*100, credit_max*100))/100
+
+    @property
+    def random_number(self):
+        import random
+        return int(''.join(random.sample('01234567890123456789', 10)))

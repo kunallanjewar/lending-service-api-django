@@ -4,6 +4,7 @@ from django.db.models.signals import post_save
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
 from django.dispatch import receiver
+from .services import LendingService
 import uuid
 
 class Profile(models.Model):
@@ -13,7 +14,7 @@ class Profile(models.Model):
     )
     first_name = models.CharField(max_length=255, blank=False)
     last_name = models.CharField(max_length=255, blank=False)
-    email = models.EmailField(max_length=254, null=True, unique=True)
+    email = models.EmailField(max_length=254, blank=False, unique=True)
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
 
@@ -22,14 +23,14 @@ class Profile(models.Model):
         return "{}".format(self.owner)
 
 class Account(models.Model):
+
     owner = models.ForeignKey(
                 'auth.User',
                 on_delete=models.CASCADE,
                 default=None
     )
-    account_number = models.UUIDField(
-                primary_key=True,
-                default=uuid.uuid4,
+    account_number = models.IntegerField(
+                default=(LendingService().random_number),
                 editable=False
     )
     credit_line = models.DecimalField(
@@ -58,7 +59,7 @@ class Account(models.Model):
                 decimal_places=2,
                 default=Decimal('0.00')
     )
-    date_created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
 
     def __str__(self):
@@ -89,9 +90,7 @@ class Transaction(models.Model):
 
     CHOICES = (('WDW', 'Withdraw'), ('PMT','Payment'))
     transaction_type = models.CharField(max_length=3, choices=CHOICES)
-
-    date_created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
-    date_modified = models.DateTimeField(auto_now=True)
+    date_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         """Return a human readable representation of the model instance."""
