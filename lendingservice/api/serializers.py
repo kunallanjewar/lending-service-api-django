@@ -68,7 +68,12 @@ class AccountSerializer(serializers.ModelSerializer):
 class TransactionSerializer(serializers.ModelSerializer):
     """Serializer to map the Model instance into JSON format."""
 
+    CHOICES = (('WDW', 'Withdraw'), ('PMT','Payment'))
+
     owner = serializers.ReadOnlyField(source='owner.username')
+    amount = serializers.CharField(required=True)
+    account = serializers.CharField(required=True)
+    transaction_type = serializers.ChoiceField(choices=CHOICES, required=True)
 
     class Meta:
         """Meta class to map serializer's fields with the model fields."""

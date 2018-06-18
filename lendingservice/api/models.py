@@ -63,7 +63,7 @@ class Account(models.Model):
 
     def __str__(self):
         """Return a human readable representation of the model instance."""
-        return "{} : {}".format(self.owner, self.account_number)
+        return "{}".format(self.account_number)
 
 class Transaction(models.Model):
     owner = models.ForeignKey(
@@ -86,14 +86,16 @@ class Transaction(models.Model):
                 decimal_places=2,
                 default=Decimal('0.00')
     )
+
     CHOICES = (('WDW', 'Withdraw'), ('PMT','Payment'))
     transaction_type = models.CharField(max_length=3, choices=CHOICES)
+
     date_created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     date_modified = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         """Return a human readable representation of the model instance."""
-        return "{} : {}".format(self.owner, self.transaction_id)
+        return "{}".format(self.transaction_id)
 
 @receiver(post_save, sender=User)
 def create_auth_token(sender, instance=None, created=False, **kwargs):

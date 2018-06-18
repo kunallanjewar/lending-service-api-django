@@ -2,12 +2,14 @@ from rest_framework import permissions, generics, viewsets
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from .models import Profile, Account, Transaction
-from .permissions import IsOwner, IsUserHimself
+from .permissions import IsProfileOwner, IsAccountOwner, IsTransactionOwner
 from django.contrib.auth.models import User
 from .services import LendingService
+from rest_framework.exceptions import APIException
 from .serializers import(   ProfileSerializer, AccountSerializer,
                             TransactionSerializer, RegisterSerializer
                         )
+
 
 class RegisterUserView(generics.CreateAPIView):
     """ Register a new user """
@@ -17,7 +19,7 @@ class RegisterUserView(generics.CreateAPIView):
 
 class ProfileView(generics.ListCreateAPIView):
     """ Get or Post user profile """
-    permission_classes = (permissions.IsAuthenticated, IsOwner)
+    permission_classes = (permissions.IsAuthenticated, IsProfileOwner)
     serializer_class = ProfileSerializer
     model = Profile
 
@@ -29,7 +31,7 @@ class ProfileView(generics.ListCreateAPIView):
 
 class AccountView(generics.ListCreateAPIView):
     """ Create Account or Get Account information """
-    permission_classes = (permissions.IsAuthenticated, IsOwner)
+    permission_classes = (permissions.IsAuthenticated, IsAccountOwner)
     serializer_class = AccountSerializer
     model = Account
 
@@ -45,16 +47,15 @@ class AccountView(generics.ListCreateAPIView):
     def get_queryset(self):
         return Account.objects.filter(owner=self.request.user)
 
-class TransactionView(generics.ListAPIView):
-    """ Get list of User transactions """
-    permission_classes = (permissions.IsAuthenticated, IsOwner)
+class TransactionView(generics.ListCreateAPIView):
+    """ Get list of User transactions or Perform a Transaction """
+    permission_classes = (permissions.IsAuthenticated, IsTransactionOwner)
+    model = Transaction
     serializer_class = TransactionSerializer
 
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
     def get_queryset(self):
+        #raise APIException("There was a problem!")
         return Transaction.objects.filter(owner=self.request.user)
-
-class WithdrawView(generics.ListAPIView):
-    pass
-
-class MakePaymentView(generics.ListCreateAPIView):
-    pass
