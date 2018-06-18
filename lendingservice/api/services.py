@@ -33,9 +33,9 @@ class LendingService(object):
 
     @property
     def interest(self):
-        return
+        return self.interest
 
     @interest.setter
     def interest(self, principal_balance, apr, days):
         DAYS_IN_YEAR = 365
-        return (principal_balance * (apr/DAYS_IN_YEAR) * days)
+        self.interest = (principal_balance * (apr/DAYS_IN_YEAR) * days)
