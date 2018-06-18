@@ -1,7 +1,7 @@
 from rest_framework import permissions, generics, viewsets
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
-from .models import User as Profile, Account, Transaction
+from .models import Profile, Account, Transaction
 from .permissions import IsOwner, IsUserHimself
 from django.contrib.auth.models import User
 from .serializers import(   ProfileSerializer, AccountSerializer,
@@ -14,9 +14,9 @@ class RegisterAccountView(generics.CreateAPIView):
     serializer_class = RegisterSerializer
 
 class ProfileView(generics.ListCreateAPIView):
-    model = Profile
-    serializer_class = ProfileSerializer
     permission_classes = (permissions.IsAuthenticated, IsOwner)
+    serializer_class = ProfileSerializer
+    model = Profile
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
