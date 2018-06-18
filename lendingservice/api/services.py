@@ -4,11 +4,14 @@ class LendingService(object):
     def __init__(self,
                 credit_min=500,
                 credit_max=5000,
-                apr=0.35):
+                apr=0.35,
+                interest=0.0,
+                principal_balance=0.0):
 
         self.credit_min = credit_min
         self.credit_max = credit_max
         self.apr = apr
+        self.interest =
 
     @property
     def apr_fixed(self):
@@ -27,3 +30,12 @@ class LendingService(object):
     def random_number(self):
         import random
         return int(''.join(random.sample('01234567890123456789', 10)))
+
+    @property
+    def interest(self):
+        return
+
+    @interest.setter
+    def interest(self, principal_balance, apr, days):
+        DAYS_IN_YEAR = 365
+        return (principal_balance * (apr/DAYS_IN_YEAR) * days)
