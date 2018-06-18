@@ -1,11 +1,11 @@
 from rest_framework import serializers
-from .models import User as Profile, AccountDetail, Transaction
+from .models import Profile, Account, Transaction
 from django.contrib.auth import get_user_model
 
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
 
-    def create(self,validated_data):
+    def create(self, validated_data):
         user = get_user_model().objects.create(
                     username = validated_data['username']
         )
@@ -20,7 +20,7 @@ class RegisterSerializer(serializers.ModelSerializer):
                     'password',
         )
 
-class UserSerializer(serializers.ModelSerializer):
+class ProfileSerializer(serializers.ModelSerializer):
     """Serializer to map the Model instance into JSON format."""
 
     owner = serializers.ReadOnlyField(source='owner.username')
@@ -28,23 +28,23 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         """Meta class to map serializer's fields with the model fields."""
         model = Profile
-        fields =   ('first_name',
+        fields =   ('owner',
+                    'first_name',
                     'last_name',
                     'email',
-                    'owner',
                     'date_created',
                     'date_modified'
         )
         read_only_fields = ('date_created', 'date_modified')
 
-class AccountDetailSerializer(serializers.ModelSerializer):
+class AccountSerializer(serializers.ModelSerializer):
     """Serializer to map the Model instance into JSON format."""
 
     owner = serializers.ReadOnlyField(source='owner.username')
 
     class Meta:
         """Meta class to map serializer's fields with the model fields."""
-        model = AccountDetail
+        model = Account
         fields =    ('owner',
                     'account_number',
                     'credit_line',
@@ -56,8 +56,8 @@ class AccountDetailSerializer(serializers.ModelSerializer):
                     'date_modified'
         )
         read_only_fields = (
+                    'apr',
                     'account_number',
-                    'credit_line',
                     'principal_balance',
                     'interest',
                     'total_amount',
