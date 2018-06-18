@@ -3,10 +3,8 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from .serializers import UserSerializer, AccountDetailSerializer, TransactionSerializer, RegisterSerializer
 from .models import User as UserModel, AccountDetail, Transaction
-from .permissions import IsOwner
+from .permissions import IsOwner, IsUserHimself
 from django.contrib.auth.models import User
-from django.shortcuts import get_list_or_404, get_object_or_404
-
 
 class RegisterAccountView(generics.CreateAPIView):
     model = User
@@ -22,9 +20,10 @@ class CreateUserView(generics.CreateAPIView):
         serializer.save(owner=self.request.user)
 
 class UserDetailView(generics.RetrieveUpdateAPIView):
-    queryset = UserModel.objects.all()
-    serializer_class = UserSerializer
-    permission_classes = (permissions.IsAuthenticated, IsOwner)
+    queryset = User.objects.all()
+    serializer_class = RegisterSerializer
+    permission_classes = (AllowAny,)
+    #permission_classes = (permissions.IsAuthenticated, IsUserHimself)
 
 class OpenAccountView(generics.CreateAPIView):
     queryset = AccountDetail.objects.all()
@@ -41,10 +40,11 @@ class MakePaymentView(generics.ListCreateAPIView):
     pass
 
 class AccountDetailView(generics.ListAPIView):
-    queryset = AccountDetail.objects.all()
-    permission_classes = (AllowAny,)
-    #permission_classes = (permissions.IsAuthenticated, IsOwner)
-    serializer_class = AccountDetail
+    permission_classes = (permissions.IsAuthenticated, IsOwner)
+    serializer_class = AccountDetailSerializer
+
+    def get_queryset(self):
+        return AccountDetail.objects.filter(owner=self.request.user)
 
 class TransactionHistoryView(generics.ListAPIView):
     permission_classes = (permissions.IsAuthenticated, IsOwner)

@@ -21,7 +21,7 @@ urlpatterns = {
                     name="transactions"
     ),
 
-    url(r'^api/account/(?P<pk>[0-9]+)/$',
+    url(r'^api/account/$',
                     AccountDetailView.as_view(),
                     name="account"
     ),
