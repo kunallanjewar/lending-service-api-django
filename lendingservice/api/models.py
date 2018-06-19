@@ -5,7 +5,6 @@ from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
 from django.dispatch import receiver
 from .services import LendingService
-import uuid
 
 class Profile(models.Model):
     owner = models.ForeignKey(
@@ -34,6 +33,11 @@ class Account(models.Model):
                 editable=False
     )
     credit_line = models.DecimalField(
+                max_digits=50,
+                decimal_places=2,
+                default=Decimal('0.00')
+    )
+    credit_limit = models.DecimalField(
                 max_digits=50,
                 decimal_places=2,
                 default=Decimal('0.00')
@@ -67,6 +71,7 @@ class Account(models.Model):
         return "{}".format(self.account_number)
 
 class Transaction(models.Model):
+    import uuid
     owner = models.ForeignKey(
                 'auth.User',
                 on_delete=models.CASCADE,

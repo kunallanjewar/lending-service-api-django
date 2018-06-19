@@ -48,6 +48,7 @@ class AccountSerializer(serializers.ModelSerializer):
         fields =    ('owner',
                     'account_number',
                     'credit_line',
+                    'credit_limit',
                     'apr',
                     'principal_balance',
                     'interest',
@@ -58,6 +59,7 @@ class AccountSerializer(serializers.ModelSerializer):
         read_only_fields = (
                     'apr',
                     'account_number',
+                    'credit_limit',
                     'principal_balance',
                     'interest',
                     'total_amount',

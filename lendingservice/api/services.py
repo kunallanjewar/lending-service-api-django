@@ -29,11 +29,6 @@ class LendingService(object):
         import random
         return (random.randrange(self.credit_min, self.credit_max))
 
-    @classmethod
-    def random_number(self):
-        import random
-        return int(''.join(random.sample('01234567890123456789', 10)))
-
     @property
     def interest(self):
         return self.interest
@@ -46,3 +41,12 @@ class LendingService(object):
     @credit_line.setter
     def credit_line(self, value):
         self._credit_line = value
+
+    @classmethod
+    def random_number(self):
+        import random
+        return int(''.join(random.sample('01234567890123456789', 10)))
+
+    @staticmethod
+    def withdraw(credit_limit, amount):
+        return credit_limit - amount

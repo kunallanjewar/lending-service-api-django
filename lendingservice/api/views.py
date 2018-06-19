@@ -42,14 +42,15 @@ class AccountView(generics.ListCreateAPIView):
     model = Account
 
     def perform_create(self, serializer):
-        #try:
-        service = LendingService()
-        serializer.save(    owner=self.request.user,
-                            apr=service.apr,
-                            credit_line=service.credit_line
-                        )
-        #except:
-            #raise APIException("Opps! There was a problem in opening your credit account.")
+        try:
+            service = LendingService()
+            serializer.save(    owner=self.request.user,
+                                apr=service.apr,
+                                credit_line=service.credit_line,
+                                credit_limit=service.credit_line
+                            )
+        except:
+            raise APIException("Opps! There was a problem in opening your credit account.")
 
     def get_queryset(self):
         try:
@@ -64,10 +65,17 @@ class TransactionView(generics.ListCreateAPIView):
     model = Transaction
 
     def perform_create(self, serializer):
-        try:
-            serializer.save(owner=self.request.user)
-        except:
-            raise APIException("Opps! There was a problem in performing this transactions.")
+        #try:
+        from decimal import Decimal
+        service = LendingService()
+        if serializer.data['transaction_type'] == 'WDW':
+            credit_line = Account.objects.filter(account_number=int(serializer.data['account']))
+            print(credit_line.values('credit_line'))
+            new_credit_limit = service.withdraw(500, Decimal(serializer.data['amount']))
+
+        #serializer.save(owner=self.request.user)
+        #except:
+            #raise APIException("Opps! There was a problem in performing this transactions.")
 
     def get_queryset(self):
         try:
