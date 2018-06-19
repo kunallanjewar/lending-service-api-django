@@ -83,7 +83,6 @@ class TransactionSerializer(serializers.ModelSerializer):
                     'transaction_id',
                     'transaction_type',
                     'amount',
-                    'date_created',
-                    'date_modified'
+                    'date_created'
         )
-        read_only_fields = ('date_created', 'date_modified')
+        read_only_fields = ('date_created',)

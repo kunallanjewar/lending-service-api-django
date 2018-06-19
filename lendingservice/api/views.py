@@ -24,10 +24,16 @@ class ProfileView(generics.ListCreateAPIView):
     model = Profile
 
     def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
+        try:
+            serializer.save(owner=self.request.user)
+        except:
+            raise APIException("Opps! There was a problem in creating your profile.")
 
     def get_queryset(self):
-        return Profile.objects.filter(owner=self.request.user)
+        try:
+            return Profile.objects.filter(owner=self.request.user)
+        except:
+            raise APIException("Opps! There was a problem in retrieving your profile details.")
 
 class AccountView(generics.ListCreateAPIView):
     """ Create Account or Get Account information """
@@ -36,26 +42,35 @@ class AccountView(generics.ListCreateAPIView):
     model = Account
 
     def perform_create(self, serializer):
-        apr = LendingService().apr
-        credit_line = LendingService().credit_max
-
+        #try:
+        service = LendingService()
         serializer.save(    owner=self.request.user,
-                            apr=apr,
-                            credit_line=credit_line
+                            apr=service.apr,
+                            credit_line=service.credit_line
                         )
+        #except:
+            #raise APIException("Opps! There was a problem in opening your credit account.")
 
     def get_queryset(self):
-        return Account.objects.filter(owner=self.request.user)
+        try:
+            return Account.objects.filter(owner=self.request.user)
+        except:
+            raise APIException("Opps! There was a problem in retrieving your credit account details.")
 
 class TransactionView(generics.ListCreateAPIView):
     """ Get list of User transactions or Perform a Transaction """
     permission_classes = (permissions.IsAuthenticated, IsTransactionOwner)
-    model = Transaction
     serializer_class = TransactionSerializer
+    model = Transaction
 
     def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
+        try:
+            serializer.save(owner=self.request.user)
+        except:
+            raise APIException("Opps! There was a problem in performing this transactions.")
 
     def get_queryset(self):
-        #raise APIException("There was a problem!")
-        return Transaction.objects.filter(owner=self.request.user)
+        try:
+            return Transaction.objects.filter(owner=self.request.user)
+        except:
+            raise APIException("Opps! There was a problem in retrieving your transactions history.")

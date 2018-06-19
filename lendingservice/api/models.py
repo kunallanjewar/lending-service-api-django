@@ -23,14 +23,14 @@ class Profile(models.Model):
         return "{}".format(self.owner)
 
 class Account(models.Model):
-
+    account_number = LendingService().random_number
     owner = models.ForeignKey(
                 'auth.User',
                 on_delete=models.CASCADE,
                 default=None
     )
-    account_number = models.IntegerField(
-                default=(LendingService().random_number),
+    account_number = models.BigIntegerField(
+                default= account_number,
                 editable=False
     )
     credit_line = models.DecimalField(
@@ -83,7 +83,7 @@ class Transaction(models.Model):
                 editable=False
     )
     amount = models.DecimalField(
-                max_digits=10,
+                max_digits=4,
                 decimal_places=2,
                 default=Decimal('0.00')
     )
