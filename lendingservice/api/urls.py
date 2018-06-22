@@ -27,11 +27,6 @@ urlpatterns = {
                     name="transaction"
     ),
 
-    url(r'^account/$',
-                    AccountView.as_view(),
-                    name="account"
-    ),
-
     url(r'^auth/', include('rest_framework.urls',
                     namespace='rest_framework')
     ),
