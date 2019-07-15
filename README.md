@@ -1,4 +1,4 @@
-# lending-service-api-django (In Progress)
+# lending-service-api-django (Not-Maintained)
 
 This is a lending service restful api product that can be consumed for:
 1. Opening a line of credit with the lender.
